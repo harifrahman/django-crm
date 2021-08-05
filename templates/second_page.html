@@ -7,5 +7,13 @@
 <body>
     <h1>Hello there!</h1>
     <p>Arif was here~ </p>
+    <p> Fullname from context: {{ fullname }}</p>
+    <p> Type from context: {{ type }}</p>
+    <p> Type from context: {{ leads }}</p>
+    <p><ul>
+        {% for lead in leads  %}
+            <li>{{ lead }}</li>
+        {% endfor %}
+    </ul></p>
 </body>
 </html>
