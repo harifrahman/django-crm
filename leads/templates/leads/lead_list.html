@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Leads List | Abz</title>
+    <style>
+        .lead {
+            padding: 10px 6px 10px;
+            margin-top: 10px;
+            background-color: #f6f6f6;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>This is all list of leads!</h1>
+    {% for lead in leads %}
+        <div class="lead">
+            <a href='/leads/{{ lead.pk }}'>{{ lead.first_name }} {{ lead.last_name }}.</a></br> 
+            Age: {{ lead.age }}
+        </div>
+    {% endfor %}
+    
+</body>
+</html>

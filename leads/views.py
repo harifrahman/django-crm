@@ -4,7 +4,7 @@ from .models import Lead
 
 # Create your views here.
 
-def homePage(request):
+def leadList(request):
     # return HttpResponse("Hello there ~")
     # using manual template, set folder templates/leads
     # return render(request, "leads/home_page.html") 
@@ -16,4 +16,15 @@ def homePage(request):
         "leads": leads
     }
 
-    return render(request, "second_page.html", context)
+    return render(request, "leads/lead_list.html", context)
+
+def leadDetail(request, pk):
+    lead = Lead.objects.get(id=pk)
+    context = {
+        "lead": lead
+    }
+
+    # print(pk)
+    # msg = "this is the detail, pk = ", pk
+    # return HttpResponse(lead)
+    return render(request, "leads/lead_detail.html", context)
