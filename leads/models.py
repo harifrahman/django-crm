@@ -1,4 +1,3 @@
-from typing import SupportsRound
 from django.db import models
 from django.db.models.base import Model
 from django.db.models.deletion import CASCADE

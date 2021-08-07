@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Create New Lead | Abz</title>
+</head>
+<body>
+    <a href='/leads'> Go Back </a>
+    <hr/>
+    <h1>Lets Create A New Lead~</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit"> Submit </button>
+    </form>
+</body>
+</html>
