@@ -13,13 +13,15 @@
     </style>
 </head>
 <body>
-    <a href='/leads/create/'> Create new lead </a>
+    <a href='/leads/create/'> Create New Lead </a>
     <hr/>
     <h1>This is all list of leads!</h1>
     {% for lead in leads %}
         <div class="lead">
             <a href='/leads/{{ lead.pk }}'>{{ lead.first_name }} {{ lead.last_name }}.</a></br> 
-            Age: {{ lead.age }} &nbsp;&nbsp;&nbsp;&nbsp; - <a href='/leads/{{ lead.pk }}/update'> Edit data </a>
+            Age: {{ lead.age }} <hr/>
+            <a href='/leads/{{ lead.pk }}/update'> Edit data </a> &nbsp; 
+            <a href='/leads/{{ lead.pk }}/delete'> Delete data </a>
         </div>
     {% endfor %}
     

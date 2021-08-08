@@ -78,6 +78,13 @@ def leadUpdate(request, pk):
     }
     return render(request, "leads/lead_update.html", context)
 
+def leadDelete(request, pk):
+    lead = Lead.objects.get(id=pk)
+    id = lead.pk
+    lead.delete()
+    print('success deleting lead:', lead.first_name, lead.last_name, "with id:", id)
+    return redirect("/leads")
+
 # using LeadFrom
 # def leadCreate(request):
 #     # print(request.POST)
