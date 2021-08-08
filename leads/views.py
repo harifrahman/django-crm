@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from .models import Lead, Agent
-from .forms import LeadForm
+from .forms import LeadForm, LeadModelForm
 
 # Create your views here.
 
@@ -30,31 +30,64 @@ def leadDetail(request, pk):
     # return HttpResponse(lead)
     return render(request, "leads/lead_detail.html", context)
 
+# using LeadModelForm
 def leadCreate(request):
     # print(request.POST)
-    form = LeadForm()
+    form = LeadModelForm()
     if request.method == 'POST':
         # print('Receiving a post from leads..')
-        form = LeadForm(request.POST)
+        form = LeadModelForm(request.POST)
         if form.is_valid():                 #cleaned_data is only can access after form.is_valid()
-            # print('form is valid')
             # print(form.cleaned_data)
-            firstName = form.cleaned_data['first_name']
+            # inside we declare & do mapping manually. like below
+            '''firstName = form.cleaned_data['first_name']
             lastName = form.cleaned_data['last_name']
             age = form.cleaned_data['age']
-            agent = Agent.objects.first()
+            agent = form.cleaned_data['agent']
 
             result = Lead.objects.create(
                 first_name = firstName,
                 last_name = lastName,
                 age = age,
                 agent = agent
-            )
+            )'''
+            # we can simply call save, inside is_valid()
+            result = form.save()
 
-            print("Lead has been created", result)
+            print("Lead has been created:", result, 'id:', result.pk)
             return redirect("/leads")
 
     context = {
         "form": form
     }
     return render(request, "leads/lead_create.html", context)
+
+# using LeadFrom
+# def leadCreate(request):
+#     # print(request.POST)
+#     form = LeadForm()
+#     if request.method == 'POST':
+#         # print('Receiving a post from leads..')
+#         form = LeadForm(request.POST)
+#         if form.is_valid():                 #cleaned_data is only can access after form.is_valid()
+#             # print('form is valid')
+#             # print(form.cleaned_data)
+#             firstName = form.cleaned_data['first_name']
+#             lastName = form.cleaned_data['last_name']
+#             age = form.cleaned_data['age']
+#             agent = Agent.objects.first()
+
+#             result = Lead.objects.create(
+#                 first_name = firstName,
+#                 last_name = lastName,
+#                 age = age,
+#                 agent = agent
+#             )
+
+#             print("Lead has been created", result)
+#             return redirect("/leads")
+
+#     context = {
+#         "form": form
+#     }
+#     return render(request, "leads/lead_create.html", context)
