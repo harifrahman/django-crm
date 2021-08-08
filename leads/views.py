@@ -62,6 +62,22 @@ def leadCreate(request):
     }
     return render(request, "leads/lead_create.html", context)
 
+def leadUpdate(request, pk):
+    lead = Lead.objects.get(id=pk)
+    form = LeadModelForm(instance=lead)
+    if request.method == 'POST':
+        form = LeadModelForm(request.POST, instance=lead)
+        if form.is_valid():
+            result = form.save()
+            print("Lead has been updated", result)
+            return redirect("/leads/"+str(lead.pk))
+
+    context = {
+        "form": form,
+        "lead": lead
+    }
+    return render(request, "leads/lead_update.html", context)
+
 # using LeadFrom
 # def leadCreate(request):
 #     # print(request.POST)
@@ -91,3 +107,27 @@ def leadCreate(request):
 #         "form": form
 #     }
 #     return render(request, "leads/lead_create.html", context)
+
+
+# def leadUpdate(request, pk):
+#     lead = Lead.objects.get(id=pk)
+#     form = LeadForm()
+#     if request.method == 'POST':
+#         form = LeadForm(request.POST)
+#         if form.is_valid():
+#             firstName = form.cleaned_data['first_name']
+#             lastName = form.cleaned_data['last_name']
+#             age = form.cleaned_data['age']
+
+#             lead.first_name = firstName
+#             lead.last_name = lastName
+#             lead.age = age
+#             result = lead.save()
+#             print("Lead has been updated", result)
+#             return redirect("/leads")
+
+#     context = {
+#         "form": form,
+#         "lead": lead
+#     }
+#     return render(request, "leads/lead_update.html", context)
