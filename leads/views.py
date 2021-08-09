@@ -5,6 +5,9 @@ from .forms import LeadForm, LeadModelForm
 
 # Create your views here.
 
+def landingPage(request):
+    return render(request, "landing.html")
+
 def leadList(request):
     # return HttpResponse("Hello there ~")
     # using manual template, set folder templates/leads
