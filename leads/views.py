@@ -1,12 +1,27 @@
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, reverse
 from .models import Lead, Agent
 from .forms import LeadForm, LeadModelForm
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
 # Create your views here.
 
+
+# Classed based views sample
+class LandingPageView(TemplateView):
+    template_name = "landing.html"
+
 def landingPage(request):
     return render(request, "landing.html")
+
+class LeadListView(ListView):
+    template_name = "leads/lead_list.html"
+    queryset = Lead.objects.all()
+    '''
+    the context by default this class assign is "object_list"
+    but we can to overwrite the context name like this
+    '''
+    context_object_name="leads"
 
 def leadList(request):
     # return HttpResponse("Hello there ~")
@@ -22,6 +37,12 @@ def leadList(request):
 
     return render(request, "leads/lead_list.html", context)
 
+class LeadDetailView(DetailView):
+    template_name = "leads/lead_detail.html"
+    # no need to specify, like using get(id=pk). Auto grep by django it self ;P
+    queryset = Lead.objects.all()
+    context_object_name="lead"
+
 def leadDetail(request, pk):
     lead = Lead.objects.get(id=pk)
     context = {
@@ -32,6 +53,17 @@ def leadDetail(request, pk):
     # msg = "this is the detail, pk = ", pk
     # return HttpResponse(lead)
     return render(request, "leads/lead_detail.html", context)
+
+class LeadCreateView(CreateView):
+    template_name = "leads/lead_create.html"
+    # no need write with '()'. just type to specify form, cause this for create -> form_class = LeadModelForm()
+    form_class = LeadModelForm
+    context_object_name="lead"
+
+    def get_success_url(self):
+        # return redirect("/leads")
+        # instead of returning hard code like above, we can pass using name of url. using reverse from shortcut
+        return reverse("leads:lead-list")
 
 # using LeadModelForm
 def leadCreate(request):
@@ -65,6 +97,17 @@ def leadCreate(request):
     }
     return render(request, "leads/lead_create.html", context)
 
+
+class LeadUpdateView(UpdateView):
+    template_name = "leads/lead_update.html"
+    # need queryset, caused we need to know which id, we wanna update
+    queryset = Lead.objects.all()
+    form_class = LeadModelForm
+    context_object_name="lead"
+
+    def get_success_url(self):
+        return reverse("leads:lead-list")
+
 def leadUpdate(request, pk):
     lead = Lead.objects.get(id=pk)
     form = LeadModelForm(instance=lead)
@@ -80,6 +123,17 @@ def leadUpdate(request, pk):
         "lead": lead
     }
     return render(request, "leads/lead_update.html", context)
+
+
+class LeadDeleteView(DeleteView):
+    # need to make new template.html for deleting. like a simple confirmation for delete data
+    template_name = "leads/lead_delete.html"
+    queryset = Lead.objects.all()
+    form_class = LeadModelForm
+    context_object_name="lead"
+
+    def get_success_url(self):
+        return reverse("leads:lead-list")
 
 def leadDelete(request, pk):
     lead = Lead.objects.get(id=pk)
