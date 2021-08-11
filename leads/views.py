@@ -1,14 +1,21 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, reverse
-from .models import Lead, Agent
-from .forms import LeadForm, LeadModelForm
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.core.mail import send_mail 
+from .models import Lead, Agent
+from .forms import LeadForm, LeadModelForm, CustomUserCreationForm
 
 # Create your views here.
-
-
 # Classed based views sample
+
+class SignupView(CreateView):
+    template_name = "registration/signup.html"
+    form_class = CustomUserCreationForm
+    context_object_name="lead"
+
+    def get_success_url(self):
+        return reverse("login")
+
 class LandingPageView(TemplateView):
     template_name = "landing.html"
 

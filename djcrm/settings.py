@@ -127,3 +127,6 @@ STATIC_ROOT = 'static_root'
 AUTH_USER_MODEL = 'leads.User'
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# by default it shout auto redirect to accounts/profile/. so we overwrite
+LOGIN_REDIRECT_URL = "/leads"
